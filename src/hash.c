@@ -5,9 +5,10 @@ size_t h1(int key) {
     return (size_t)(key % HASH_TABLE_SIZE); 
 }
 
-// ⌊m * (k * 0.9 − ⌊k * 0.9⌋)⌋
 size_t h2(int key) {
-    return (size_t)floor((HASH_TABLE_SIZE * ((key * 0.9) - floor((key * 0.9)))));
+    if (key < 0) key *= (-1); // Tratamento de negativos
+    return (size_t)
+        floor((HASH_TABLE_SIZE * ((key * 0.9) - floor((key * 0.9)))));
 }
 
 Hash_t create_hash_table() {
@@ -21,10 +22,22 @@ Hash_t create_hash_table() {
     return h;
 }
 
+int search_hash_table(Hash_t t, int k) {
+    size_t pos = h1(k);
+
+    if((t.h1[pos].started) && (!t.h1[pos].deleted) && (t.h1[pos].value == k))
+        return 1;
+    if((t.h2[pos].started) && (!t.h2[pos].deleted) && (t.h2[pos].value == k))
+        return 2;
+        
+    return 0;
+}
+
 void insert_hash_table(Hash_t *t, int k) {
     
-    size_t pos = h1(k), j;
+    size_t j, pos = h1(k);
 
+    // Verificar se existe chave na posicao 01
     if((t->h1[pos].started) && (!t->h1[pos].deleted)) {
         // Copiar a T1 para T2
         j = h2(t->h1[pos].value);
@@ -33,6 +46,7 @@ void insert_hash_table(Hash_t *t, int k) {
         t->h2[j].deleted = 0;
     }
 
+    // Inserir a chave na tabella
     t->h1[pos].value = k;
     t->h1[pos].started = 1;
     t->h1[pos].deleted = 0;
@@ -40,7 +54,7 @@ void insert_hash_table(Hash_t *t, int k) {
 
 int delete_hash_table(Hash_t *t, int k) {
 
-    // Deleta primeiro da segunda tabela
+    // Deleta primeiro na segunda tabela (se corresponder)
     size_t pos = h2(k);
     if ((t->h2[pos].started) && ((t->h2[pos].value == k))) {
         t->h2[pos].deleted = 1;
@@ -48,6 +62,7 @@ int delete_hash_table(Hash_t *t, int k) {
         return (int)pos;
     }
 
+    // Verifica se existe na primeira tabela e deleta
     pos = h1(k);
     if((t->h1[pos].started) && (t->h1[pos].value == k)) {
         t->h1[pos].deleted = 1;
@@ -60,6 +75,7 @@ int delete_hash_table(Hash_t *t, int k) {
 
 void print_hash_table(Hash_t t) {
 
+    // Estrutura de dados temporario para ordenacao
     struct __num_table {
         int value;
         size_t level;
@@ -67,11 +83,13 @@ void print_hash_table(Hash_t t) {
     };
 
     // Acha o tamanho da tabela (nao vazios)
-    size_t size = 0;
-    struct __num_table v[(HASH_TABLE_SIZE << 1)];
-    struct __num_table temp;
+    size_t size = 0; // Quantidade de dados validos
+    struct __num_table v[(HASH_TABLE_SIZE << 1)]; // Array de ordenacao
+    struct __num_table temp; // Dado temporario para trocas
 
+    // Armazenar dados validos nas tabelas
     for(size_t i=0; i < HASH_TABLE_SIZE; i++) {
+
         // Conteudo da primeira tabela
         if ((t.h1[i].started) && (!t.h1[i].deleted)) {
             v[size].value = t.h1[i].value;
@@ -100,7 +118,7 @@ void print_hash_table(Hash_t t) {
     }
 
     // Imprimir toda as saidas
-    for(size_t i=0; i < size; i++) {
+    // (numero,tabela,posicao)
+    for(size_t i=0; i < size; i++)
         printf("%d,T%1hu,%ld\n", v[i].value, (v[i].table + 1) , v[i].level);
-    }
 }
