@@ -25,7 +25,7 @@ A tabela confere colisoes de inserir na primeira sub tabela Hash e empurra eleme
 
 ### Compilando
 
-```bash=
+```bash
 # Compilando na raiz
 make;
 
@@ -45,7 +45,7 @@ make;
 
 ### Entrada (`stdin`)
 
-```plaintext=
+```plaintext
 i 10
 i 22
 i 4
@@ -58,7 +58,7 @@ r 59
 
 ### Saida (`stdout`)
 
-```plaintext=
+```plaintext
 4,T2,6
 10,T1,10
 ```
@@ -70,7 +70,7 @@ r 59
 ### Estrutura de dados em hash.c
 
 * Estrutura de dados para armazenamento da hash (tabela 01 e tabela 02)
-  ```c=
+  ```c
   typedef struct {
       __hash_number h1[HASH_TABLE_SIZE], // Tabela 01 (esquerda)
                     h2[HASH_TABLE_SIZE]; // Tabela 02 (direita)
@@ -79,7 +79,7 @@ r 59
 
 * Estrutura de dados para armazenamento de cada valor da hash
 * Possui valor e bits de manipulacao (tipo deletado ou inicializado)
-  ```c=
+  ```c
   typedef struct {
       int value; // Valor qualquer (chave)
       unsigned int deleted:1, // Bit de delete
