@@ -9,13 +9,13 @@
 // Struct de numeros para a hash
 typedef struct {
     int value;
-    unsigned int deleted:1;
-    unsigned int started:1;
+    unsigned int deleted:1,
+                 started:1;
 } __hash_number;
 
 typedef struct {
-    __hash_number h1[HASH_TABLE_SIZE];
-    __hash_number h2[HASH_TABLE_SIZE];
+    __hash_number h1[HASH_TABLE_SIZE],
+                  h2[HASH_TABLE_SIZE];
 } Hash_t;
 
 size_t h1(int key);
