@@ -67,7 +67,7 @@ int delete_hash_table(Hash_t *t, int k);
 
 
 /*
-    Imprime de forma ordenado a tabela, da forrma:
+    Imprime de forma ordenado a tabela, da forma:
     (numero, tabela, posicao)
     (10,T2,4)
 
