@@ -14,13 +14,6 @@ Esta tabela hash possui funções de manipulação, e é uma abstração do **Cu
 
 A tabela confere colisoes de inserir na primeira sub tabela Hash e empurra elementos da primeira para segunda. Ou seja, **SEMPRE** insere na primeira sub tabela, no entanto, **não é verificado a dupla colisão**, portanto essa implementação pode gerar perda de dados por dupla colisão (tanto na primeira e segunda sub tabela) e também não realiza o "rehashing", comumente feito no Cuckoo Hashing.
 
-## Sobre a entrega
-
-* Feito por Gustavo Benitez Frehse
-* GRR20235087
-* Informática Biomédica
-* Matéria: Algoritmos e Estrutura de Dados III
-
 ## Uso do programa
 
 ### Compilando
